@@ -4,7 +4,6 @@ namespace Zipkin
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Threading;
-	using System.Threading.Tasks;
 
 	public class AsyncRecorder : Recorder
 	{
@@ -12,7 +11,7 @@ namespace Zipkin
 		private readonly RecorderMetrics _metrics;
 		private ConcurrentQueue<Span> _enqueuedSpans = new ConcurrentQueue<Span>();
 		private AutoResetEvent _spansEnqueuedEvent = new AutoResetEvent(false);
-		private volatile int _disposed;
+		private int _disposed;
 
 		private const int DisposedSet = 1;
 		private const int MaxQueueSize = 1000;
@@ -78,8 +77,7 @@ namespace Zipkin
 						break;
 					}
 
-					Span span;
-					while (_enqueuedSpans.TryDequeue(out span))
+					while (_enqueuedSpans.TryDequeue(out var span))
 					{
 						spanList.Add(span);
 					}

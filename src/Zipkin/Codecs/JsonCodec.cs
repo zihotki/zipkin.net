@@ -51,7 +51,7 @@ namespace Zipkin
 		private void InternalWriteSpan(StreamWriter w, Span span)
 		{
 			w.Write("{\"traceId\":\"");
-			w.WriteLowerHex(span.TraceId);
+			w.Write(span.TraceId.ToString("N"));
 			w.Write("\",\"id\":\"");
 			w.WriteLowerHex(span.Id);
 			w.Write("\",\"name\":\"");

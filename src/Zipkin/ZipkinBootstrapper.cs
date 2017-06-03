@@ -32,13 +32,13 @@ namespace Zipkin
 
 		private SpanDispatcher _dispatcher;
 		private RecorderMetrics _metrics;
-		private int _httpPort, _scribePort;
+		private int _httpPort;
 		private string _zipkinHostname;
 		private Codec _codec;
 		private readonly string _serviceName;
 		private readonly IPAddress _thisServiceAddress;
 		private readonly short _thisServicePort;
-		private volatile int _started;
+		private int _started;
 
 		/// <summary>
 		/// Initialize the config with the current service name, ipaddress (if any) and port.
@@ -49,7 +49,6 @@ namespace Zipkin
 			_thisServiceAddress = thisServiceAddress;
 			_thisServicePort = thisServicePort;
 			_httpPort = 9411;
-			_scribePort = 9410;
 			_zipkinHostname = "localhost";
 		}
 
@@ -101,11 +100,10 @@ namespace Zipkin
 		/// <summary>
 		/// Use to define where the zipkin server is located.
 		/// </summary>
-		public ZipkinBootstrapper ZipkinAt(string zipkinHostname, int httpPort = 9411, int scribePort = 9410)
+		public ZipkinBootstrapper ZipkinAt(string zipkinHostname, int httpPort = 9411)
 		{
 			_zipkinHostname = zipkinHostname;
 			_httpPort = httpPort;
-			_scribePort = scribePort;
 			return this;
 		}
 
@@ -151,7 +149,7 @@ namespace Zipkin
 			Interlocked.Increment(ref _started);
 
 			// Apply defaults
-			var codec = _codec ?? new ThriftCodec();
+			var codec = _codec ?? new JsonCodec();
 			var dispatcher = _dispatcher ?? new RestSpanDispatcher(codec, _zipkinHostname, _httpPort);
 			var metrics = _metrics ?? new RecorderMetrics();
 

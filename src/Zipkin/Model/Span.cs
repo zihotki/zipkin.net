@@ -22,7 +22,7 @@
 	/// </remarks>
 	public class Span
 	{
-		public Span(long traceId, string name, long id)
+		public Span(Guid traceId, string name, long id)
 		{
 			TraceId = traceId;
 			Name = name ?? "unknown";
@@ -35,9 +35,9 @@
 		}
 
 		/// <summary>
-		/// Unique 8-byte identifier for a trace, set on all spans within it.
+		/// Unique 16-byte identifier for a trace, set on all spans within it.
 		/// </summary>
-		public long TraceId;
+		public Guid TraceId;
 
 		/// <summary>
 		/// Span name in lowercase, rpc method for example.

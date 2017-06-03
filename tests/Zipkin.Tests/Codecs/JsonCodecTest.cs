@@ -21,7 +21,7 @@
 			var stream = new MemoryStream();
 
 			// Act
-			new JsonCodec().WriteSpan(new Span(traceId: 10951, name: "root", id: 15910)
+			new JsonCodec().WriteSpan(new Span(traceId: Guid.Parse("00000000000000000000000000002ac7"), name: "root", id: 15910)
 			{
 				Timestamp = new DateTimeOffset(2016, 7, 16, 4, 40, 1, TimeSpan.Zero),
 			}, stream);
@@ -29,7 +29,7 @@
 			// Assert
 			Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length)
 				.Should()
-				.Be("﻿{\"traceId\":\"0000000000002ac7\",\"id\":\"0000000000003e26\",\"name\":\"root\",\"timestamp\":1468644001000000}");
+				.Be("﻿{\"traceId\":\"00000000000000000000000000002ac7\",\"id\":\"0000000000003e26\",\"name\":\"root\",\"timestamp\":1468644001000000}");
 		}
 
 		[Test]
@@ -39,7 +39,7 @@
 			var stream = new MemoryStream();
 
 			// Act
-			new JsonCodec().WriteSpan(new Span(traceId: 10951, name: "root", id: 15910)
+			new JsonCodec().WriteSpan(new Span(traceId: Guid.Parse("00000000000000000000000000002ac7"), name: "root", id: 15910)
 			{
 				Timestamp = new DateTimeOffset(2016, 7, 16, 4, 40, 1, TimeSpan.Zero),
 
@@ -53,7 +53,7 @@
 			// Assert
 			Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length)
 				.Should()
-				.Be("﻿{\"traceId\":\"0000000000002ac7\",\"id\":\"0000000000003e26\",\"name\":\"root\",\"timestamp\":1468644001000000,\"annotations\":[{\"timestamp\":1475621352000000,\"value\":\"something\",\"endpoint\":{\"serviceName\":\"hellosvc\",\"ipv4\":\"127.0.0.1\"}},{\"timestamp\":1475621353000000,\"value\":\"no host\"}]}");
+				.Be("﻿{\"traceId\":\"00000000000000000000000000002ac7\",\"id\":\"0000000000003e26\",\"name\":\"root\",\"timestamp\":1468644001000000,\"annotations\":[{\"timestamp\":1475621352000000,\"value\":\"something\",\"endpoint\":{\"serviceName\":\"hellosvc\",\"ipv4\":\"127.0.0.1\"}},{\"timestamp\":1475621353000000,\"value\":\"no host\"}]}");
 		}
 
 		[Test]
@@ -63,7 +63,7 @@
 			var stream = new MemoryStream();
 
 			// Act
-			new JsonCodec().WriteSpan(new Span(traceId: 10951, name: "root", id: 15910)
+			new JsonCodec().WriteSpan(new Span(traceId: Guid.Parse("00000000000000000000000000002ac7"), name: "root", id: 15910)
 			{
 				IsDebug = true,
 				ParentId = 10,
@@ -86,7 +86,7 @@
 
 			// Assert
 			// Console.WriteLine(Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length));
-			Assert.AreEqual("﻿{\"traceId\":\"0000000000002ac7\",\"id\":\"0000000000003e26\",\"name\":\"root\",\"parentId\":\"000000000000000a\",\"timestamp\":1475621352000000,\"binaryAnnotations\":[{\"key\":\"cs\",\"value\":2147483637,\"type\":\"I32\",\"endpoint\":{\"serviceName\":\"hellosvc\",\"ipv4\":\"127.0.0.1\"}},{\"key\":\"cr\",\"value\":12345678910,\"type\":\"I64\"},{\"key\":\"cs\",\"value\":\"this is a string\"},{\"key\":\"cs\",\"value\":true},{\"key\":\"ca\",\"value\":false},{\"key\":\"crf\",\"value\":\"AQIDBAU=\",\"type\":\"BYTES\"},{\"key\":\"sa\",\"value\":1234.421,\"type\":\"DOUBLE\"}],\"debug\":true}", 
+			Assert.AreEqual("﻿{\"traceId\":\"00000000000000000000000000002ac7\",\"id\":\"0000000000003e26\",\"name\":\"root\",\"parentId\":\"000000000000000a\",\"timestamp\":1475621352000000,\"binaryAnnotations\":[{\"key\":\"cs\",\"value\":2147483637,\"type\":\"I32\",\"endpoint\":{\"serviceName\":\"hellosvc\",\"ipv4\":\"127.0.0.1\"}},{\"key\":\"cr\",\"value\":12345678910,\"type\":\"I64\"},{\"key\":\"cs\",\"value\":\"this is a string\"},{\"key\":\"cs\",\"value\":true},{\"key\":\"ca\",\"value\":false},{\"key\":\"crf\",\"value\":\"AQIDBAU=\",\"type\":\"BYTES\"},{\"key\":\"sa\",\"value\":1234.421,\"type\":\"DOUBLE\"}],\"debug\":true}", 
 				Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length));
 		}
     }

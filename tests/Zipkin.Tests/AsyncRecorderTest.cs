@@ -1,3 +1,5 @@
+using System;
+
 namespace Zipkin.Tests
 {
 	using System.Threading;
@@ -30,7 +32,7 @@ namespace Zipkin.Tests
 		public void Record_Should_update_metrics()
 		{
 			// Act
-			_recorder.Record(new Span(1, "name", 2));
+			_recorder.Record(new Span(Guid.Parse("00000000000000000000000000000001"), "name", 2));
 
 			// Assert
 			_metrics.DroppedCount.Should().Be(0);
@@ -42,9 +44,9 @@ namespace Zipkin.Tests
 		public void Record_Should_dispatch()
 		{
 			// Act
-			_recorder.Record(new Span(1, "name", 1));
-			_recorder.Record(new Span(1, "name", 2));
-			_recorder.Record(new Span(1, "name", 3));
+			_recorder.Record(new Span(Guid.Parse("00000000000000000000000000000001"), "name", 1));
+			_recorder.Record(new Span(Guid.Parse("00000000000000000000000000000001"), "name", 2));
+			_recorder.Record(new Span(Guid.Parse("00000000000000000000000000000001"), "name", 3));
 
 			Thread.Sleep(100);
 

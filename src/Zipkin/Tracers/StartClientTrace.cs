@@ -1,3 +1,5 @@
+using System;
+
 namespace Zipkin
 {
 	using Utils;
@@ -30,7 +32,7 @@ namespace Zipkin
 			if (shouldSample)
 			{
 				this._start = TickClock.Start();
-				this.Span = new Span(RandomHelper.NewId(), name, RandomHelper.NewId())
+				this.Span = new Span(Guid.NewGuid(), name, RandomHelper.NewId())
 				{
 					IsDebug = isDebug
 				};

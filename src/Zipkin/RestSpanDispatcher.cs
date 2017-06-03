@@ -36,7 +36,6 @@ namespace Zipkin
 		public override async Task DispatchSpans(IList<Span> spans)
 		{
 			var buffer = ArrayPool<byte>.Shared.Rent(0x800000);
-
 			try
 			{
 				using (var stream = new MemoryStream(buffer, writable: true))

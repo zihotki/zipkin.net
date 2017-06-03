@@ -13,7 +13,7 @@ namespace Zipkin
 	public static class TraceContextPropagation
 	{
 		// Todo: make it compatible with
-//		X-B3-TraceId : 64 lower-hex encoded bits(required)
+//		X-B3-TraceId : 128 lower-hex encoded bits(required)
 //		X-B3-SpanId : 64 lower-hex encoded bits(required)
 //		X-B3-ParentSpanId : 64 lower-hex encoded bits(absent on root span)
 //		X-B3-Sampled : Boolean(either “1” or “0”, can be absent)
@@ -76,7 +76,7 @@ namespace Zipkin
 			if (IsWithinTrace)
 			{
 				var span = CurrentSpan;
-				dictionary[TraceIdKey] = span.TraceId.ToString();
+				dictionary[TraceIdKey] = span.TraceId.ToString("N");
 				dictionary[SpanIdKey] = span.Id.ToString();
 			}
 		}
@@ -107,7 +107,7 @@ namespace Zipkin
 			string value;
 			if (dictionary != null && dictionary.TryGetValue(TraceIdKey, out value))
 			{
-				var traceId = Convert.ToInt64(value);
+				var traceId = Guid.Parse(value);
 				var parentSpanId = 0L;
 
 				if (dictionary.TryGetValue(SpanIdKey, out value))
@@ -134,7 +134,7 @@ namespace Zipkin
 			object value;
 			if (dictionary != null && dictionary.TryGetValue(TraceIdKey, out value))
 			{
-				var traceId = Convert.ToInt64(value);
+				var traceId = (Guid) value;
 				long parentSpanId = 0;
 
 				if (dictionary.TryGetValue(SpanIdKey, out value))

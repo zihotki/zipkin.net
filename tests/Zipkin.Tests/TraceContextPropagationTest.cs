@@ -1,3 +1,5 @@
+using System;
+
 namespace Zipkin.Tests
 {
 	using System.Collections.Generic;
@@ -43,7 +45,7 @@ namespace Zipkin.Tests
 		{
 			// Arrange
 			var dict = new Dictionary<string, object>();
-			var span = new Span(123, "a", 1000);
+			var span = new Span(Guid.Parse("00000000000000000000000000000123"), "a", 1000);
 			TraceContextPropagation.PushSpan(span);
 
 			// Act
@@ -51,7 +53,7 @@ namespace Zipkin.Tests
 
 			// Assert
 			dict.Should().HaveCount(2);
-			dict["_zipkin_traceid"].Should().Be(123L);
+			dict["_zipkin_traceid"].Should().Be(Guid.Parse("00000000000000000000000000000123"));
 			dict["_zipkin_spanid"].Should().Be(1000L);
 		}
 
@@ -60,7 +62,7 @@ namespace Zipkin.Tests
 		{
 			// Arrange
 			var dict = new Dictionary<string, string>();
-			var span = new Span(123, "a", 1000);
+			var span = new Span(Guid.Parse("00000000000000000000000000000123"), "a", 1000);
 			TraceContextPropagation.PushSpan(span);
 
 			// Act
@@ -68,7 +70,7 @@ namespace Zipkin.Tests
 
 			// Assert
 			dict.Should().HaveCount(2);
-			dict["_zipkin_traceid"].Should().Be("123");
+			dict["_zipkin_traceid"].Should().Be("00000000000000000000000000000123");
 			dict["_zipkin_spanid"].Should().Be("1000");
 		}
 
@@ -76,7 +78,7 @@ namespace Zipkin.Tests
 		public void IsWithinTrace_Should_be_true_When_there_is_a_context2()
 		{
 			// Arrange
-			var span = new Span(123, "a", 1000);
+			var span = new Span(Guid.Parse("00000000000000000000000000000123"), "a", 1000);
 			TraceContextPropagation.PushSpan(span);
 
 			// Act + Assert
@@ -87,8 +89,8 @@ namespace Zipkin.Tests
 		public void CurrentSpan_Should_return_top_of_the_stack_When_there_is_a_context()
 		{
 			// Arrange
-			var span1 = new Span(123, "a", 1000);
-			var span2 = new Span(321, "a", 2000);
+			var span1 = new Span(Guid.Parse("00000000000000000000000000000123"), "a", 1000);
+			var span2 = new Span(Guid.Parse("00000000000000000000000000000321"), "a", 2000);
 			TraceContextPropagation.PushSpan(span1);
 			TraceContextPropagation.PushSpan(span2);
 
@@ -119,7 +121,7 @@ namespace Zipkin.Tests
 		{
 			// Arrange
 			var dict = new Dictionary<string, string>();
-			var span = new Span(123, "a", 1000);
+			var span = new Span(Guid.Parse("00000000000000000000000000000123"), "a", 1000);
 			TraceContextPropagation.PushSpan(span);
 			TraceContextPropagation.PropagateTraceIdOnto(dict);
 
@@ -129,7 +131,7 @@ namespace Zipkin.Tests
 
 			// Assert
 			dict.Should().HaveCount(2);
-			traceInfo.Value.span.TraceId.Should().Be(123L);
+			traceInfo.Value.span.TraceId.Should().Be(Guid.Parse("00000000000000000000000000000123"));
 			traceInfo.Value.span.ParentId.Should().Be(1000L);
 		}
 	}
